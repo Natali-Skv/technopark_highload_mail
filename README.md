@@ -99,3 +99,6 @@ id | 4 байт
 ## 8. <a name="источники">Источники</a>  
 <a name="источник_1"> 1. https://radar.yandex.ru/yandex?month=2022-07 </a>  
 <a name="источник_2"> 2. https://www.lifewire.com/what-is-the-average-size-of-an-email-message-1171208#:~:text=The%20average%20size%20of%20an,text%20or%20about%2037.5%20pages.</a>  
+<a name="источник_3"> 3. https://help.mail.ru/cloud_web/faq/free </a>  
+<a name="источник_4"> 4. https://support.google.com/googleone/answer/9004014?hl=en </a>  
+
