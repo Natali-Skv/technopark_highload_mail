@@ -211,8 +211,8 @@
 - **USER_X_ATTACHES** -- таблица вложений, конкретного пользователя Х. Вложение считается принадлежащим пользователю, если он его прикрепил в исходящем письме. Такое вложение увеличивает storage_size данного пользователя. 
 Данная таблица создана для того, чтобы по запросу пользователь мог получить список своих вложений, а также удалить. При удалении каскадно удаляется и запись в ATTACHMENTS, также в соответствующем WIDE_MAIL соответствующий элемент attachment_sizes := -1. Далее, при отображении письма получателю, удаленное отправителем вложение, будет отмечено как "удалено отправителем"  
 
-[открыть в новой вкладке](https://) 
-![](https://github.com/Natali-Skv/technopark_highload_mail/blob/main/imgs/logic_db.png) 
+[открыть в новой вкладке](https://raw.githubusercontent.com/Natali-Skv/technopark_highload_mail/master/imgs/logic_db.png) 
+![](https://github.com/Natali-Skv/technopark_highload_mail/blob/master/imgs/logic_db_100.png) 
 
 ## 4.<a name="физическая_схема">Физическая схема</a>
 
@@ -239,8 +239,8 @@
   |USER_X_ATTACHMENTS:id|необходимо быстро получать вложение по id (запрос на удаление вложения отправителем)|
   |USER_X_ATTACHMENTS:size|необходимо быстро сортировать вложения по размеру(запрос на список вложений пользователя)|
 
-[открыть в новой вкладке](https://) 
-![](https://github.com/Natali-Skv/technopark_highload_mail/blob/main/imgs/store.png) 
+[открыть в новой вкладке](https://raw.githubusercontent.com/Natali-Skv/technopark_highload_mail/master/imgs/store.png) 
+![](https://github.com/Natali-Skv/technopark_highload_mail/blob/master/imgs/store_100.png) 
 
 ### Шардинг
 **Tarantool**:   
