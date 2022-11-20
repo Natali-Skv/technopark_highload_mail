@@ -237,6 +237,8 @@
 [открыть в новой вкладке](https://raw.githubusercontent.com/Natali-Skv/technopark_highload_mail/master/imgs/logic_db.png)
 ![](https://github.com/Natali-Skv/technopark_highload_mail/blob/master/imgs/logic_db_100.png)
 
+----
+
 ## 4.<a name="физическая_схема">Физическая схема</a>
 
 |таблица           |количество записей      | количество памяти      |пик ips|пик ops|
