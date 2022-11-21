@@ -516,7 +516,7 @@ USER_X_* набор таблиц -- USER_X_MAILS, USER_X_DIRECTORIES, USER_X_DIR
 |----------------------------|-----|-----|-------|----------------|---------|
 | base backend               | 32  | 32  | 512   |10              | 1+2     |
 | attachments backend        | 32  | 32  | 512   |25              | 2+2     |
-
+| send-mail backend          | 32  | 32  | 512   |25              | 1+2     |
 
  <details>
   <summary>:black_medium_small_square: Base backend. Развернуть пояснение</summary>
@@ -551,10 +551,10 @@ USER_X_* набор таблиц -- USER_X_MAILS, USER_X_DIRECTORIES, USER_X_DIR
 <summary>:black_medium_small_square: Send mail backend. Развернуть пояснение</summary>
 
 **обрабатывает запросы:**
-- скачивание вложения
-- удаление вложения
+- отправку письма
 
-**суммарное rps:**
+**суммарное rps:** 278  
+**суммарный трафик:** `9,1 Гбит/с`
 
 
 </details>
