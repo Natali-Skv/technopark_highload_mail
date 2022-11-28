@@ -523,7 +523,7 @@ USER_X_* набор таблиц -- USER_X_MAILS, USER_X_DIRECTORIES, USER_X_DIR
 | файловое хранилище         |32   |256  | 90 * 20 Тб HDD| 10        | 56 + 60 |
 
  <details>
-  <summary>:black_medium_small_square: Base backend. Развернуть пояснение</summary>
+  <summary>:black_circle: Base backend. Развернуть пояснение</summary>
 
 **обрабатывает запросы:**
 - регистрация
@@ -543,7 +543,7 @@ USER_X_* набор таблиц -- USER_X_MAILS, USER_X_DIRECTORIES, USER_X_DIR
  </details>
 
  <details>
-  <summary>:black_medium_small_square: Attachments backend. Развернуть пояснение</summary>
+  <summary>:black_circle: Attachments backend. Развернуть пояснение</summary>
 
 **обрабатывает запросы:**
 - скачивание вложения
@@ -559,7 +559,7 @@ USER_X_* набор таблиц -- USER_X_MAILS, USER_X_DIRECTORIES, USER_X_DIR
 
 
 <details>
-<summary>:black_medium_small_square: Send mail backend. Развернуть пояснение</summary>
+<summary>:black_circle: Send mail backend. Развернуть пояснение</summary>
 
 **обрабатывает запросы:**
 - отправку письма
@@ -577,7 +577,7 @@ USER_X_* набор таблиц -- USER_X_MAILS, USER_X_DIRECTORIES, USER_X_DIR
 
 
 <details>
-<summary>:black_medium_small_square: Балансировщик нагрузки Nginx. Развернуть пояснение</summary>
+<summary>:black_circle: Балансировщик нагрузки Nginx. Развернуть пояснение</summary>
 
 **функции:**
   - L7 балансировка
@@ -595,7 +595,7 @@ USER_X_* набор таблиц -- USER_X_MAILS, USER_X_DIRECTORIES, USER_X_DIR
 </details>
 
 <details>
-<summary>:black_medium_small_square: Хранилище сессий Tarantool. Развернуть пояснение</summary>
+<summary>:black_circle: Хранилище сессий Tarantool. Развернуть пояснение</summary>
 
 **функции:**
  - хранение сессий пользователей
@@ -610,7 +610,7 @@ USER_X_* набор таблиц -- USER_X_MAILS, USER_X_DIRECTORIES, USER_X_DIR
 </details>
 
 <details>
-<summary>:black_medium_small_square: SQLite. Развернуть пояснение</summary>
+<summary>:black_circle: SQLite. Развернуть пояснение</summary>
 
 **функции:**
  - SQLite-сервер, отвечающий на запросы получения списка писем по директории, списка вложений пользователя
@@ -626,7 +626,7 @@ USER_X_* набор таблиц -- USER_X_MAILS, USER_X_DIRECTORIES, USER_X_DIR
 
 
 <details>
-<summary>:black_medium_small_square: Postgresql. Развернуть пояснение</summary>
+<summary>:black_circle: Postgresql. Развернуть пояснение</summary>
 
 **функции:**
  - хранение таблиц USERS, ATTACHES, WIDE_MAILS
@@ -640,7 +640,7 @@ USER_X_* набор таблиц -- USER_X_MAILS, USER_X_DIRECTORIES, USER_X_DIR
 </details>
 
 <details>
-<summary>:black_medium_small_square: Файловое хранилище. Развернуть пояснение</summary>
+<summary>:black_circle: Файловое хранилище. Развернуть пояснение</summary>
 
 **функции:**
  - хранение, загрузка и отдача вложения 
