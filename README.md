@@ -249,13 +249,15 @@
 
 ## 4.<a name="физическая_схема">Физическая схема</a>
 
-[открыть в новой вкладке](https://raw.githubusercontent.com/Natali-Skv/technopark_highload_mail/master/imgs/store.png)
-![](https://github.com/Natali-Skv/technopark_highload_mail/blob/master/imgs/store_100.png)
+Рассчет размера БД с помощью специального калькулятора 
+
+[открыть в новой вкладке](https://raw.githubusercontent.com/Natali-Skv/technopark_highload_mail/master/imgs/tarantool.png)
+![](https://github.com/Natali-Skv/technopark_highload_mail/blob/master/imgs/tarantool.png)
 
 
 |данные            |количество записей      | количество памяти        |пик ips|пик ops|
 |------------------|------------------------|--------------------------|-------|-------|
-|SESSIONS          |3 * 20 млн = 60 млн     |164 Б * 60 млн = 9,8 Гб   |7      |4 948  |
+|SESSIONS          |3 * 20 млн = 60 млн     |29,5 Гб RAM + 67.35 ГБ HDD|7      |4 948  |
 |USERS             |20 млн                  |478 Б * 20 млн = 9,6 Гб   |119    |7      |
 |WIDE_MAILS        |20 млн * 1 250 = 25 млд |100 Кб * 25 млд = 2 Пб    |278    |2 778  |
 |ATTACHMENTS       |500 * 20 млн = 10 млд   |48 Б * 60 млн = 2,9 Гб    |114    |417    |
@@ -265,16 +267,11 @@
 
 <details>
   <summary>:black_circle: SESSIONS. Развернуть пояснение</summary>
+  
+**Рассчет размера БД с помощью специального калькулятора [[16]](#источник_16)**
+[открыть в новой вкладке](https://raw.githubusercontent.com/Natali-Skv/technopark_highload_mail/master/imgs/store.png)
+![](https://github.com/Natali-Skv/technopark_highload_mail/blob/master/imgs/store_100.png)
 
-|столбец|тип|объем|
-|-------|---|-----|
-|id|INT|4 Б|
-|user_id|INT|4 Б|
-|email|VARCHAR|20 сиволов (UTF-8) = 20 Б|
-|session_key|VARCHAR|128 сиволов (UTF-8) = 128 Б|
-|timezone|VARCHAR|4 сивола (UTF-8) = 4 Б|
-|expired|DATE|4 Б|
-|**Итого**||**164 Б**|
 
 * Пусть каждый пользователь залогинен на 3-х девайсах.
 * Будем очищать таблицу от протухших сессий 1 раз в день. Изначально установим
@@ -459,7 +456,7 @@ USER_X_* набор таблиц -- USER_X_MAILS, USER_X_DIRECTORIES, USER_X_DIR
 </details>
 
 
-[открыть в новой вкладке](https://raw.githubusercontent.com/Natali-Skv/technopark_highload_mail/master/imgs/data.png)
+[открыть в новой вкладке](https://docs.google.com/document/d/1SXpNGBrUtFpbA_5aca4u8GDP-TzlN29T9af6cWh1VSw/edit?usp=sharing)
 ![](https://github.com/Natali-Skv/technopark_highload_mail/blob/master/imgs/data.png)
 
   ### Индексы
@@ -483,7 +480,7 @@ USER_X_* набор таблиц -- USER_X_MAILS, USER_X_DIRECTORIES, USER_X_DIR
 > Критическое значение RPS для запросов типа SELECT/INSERT/UPDATE/DELETE – 100 000.
 > Если основная нагрузка генерируется SELECT-запросами, следует добавить slave-сервер и часть запросов обрабатывать на нем.[[8]](#источник_8)
 
-Также данные, которые мы храним в Tarantool будут помещаться в 10 Гб
+Также данные, которые мы храним в Tarantool будут помещаться в 30 Гб
 Таким образом на Tarantool можно не реализовывать шардинг.
 
 **SQLite**:
@@ -517,11 +514,17 @@ USER_X_* набор таблиц -- USER_X_MAILS, USER_X_DIRECTORIES, USER_X_DIR
 
 ## 7. <a name="список_серверов">Список серверов</a>
 
-|                            | cpu | ram | ssd   |сеть Гбит/с     | количество  |
+|                            | cpu | ram | SSD/HDD   |сеть Гбит/с     | количество  |
 |----------------------------|-----|-----|-------|----------------|---------|
-| base backend               | 40  | 512 | 256   |10              | 22 + 10 |
-| attachments backend        | 40  | 512 | 256   |25              |  3 + 2  |
-| send-mail backend          | 40  | 512 | 256   |10              | 7 + 4   |
+| base backend               | 40  | 512 | 256 SSD  |10              | 22 + 10 |
+| attachments backend        | 40  | 512 | 256 SSD  |25              |  3 + 2  |
+| send-mail backend          | 40  | 512 | 256 SSD  |10              | 7 + 4   |
+| Nginx                      | 16  | 32  | 256 SSD  |25              | 30 + 20 |
+| Postgresql                 |64   | 512 | 20 Тб HDD|25              |10 + 20  |
+| SQLite                     |64   | 512 | 4 Тб HDD |10              |11 + 20  |
+| Tarantool                  |8    |64   | 256  SSD |10              | 1 + 2   |
+| |||||
+| |||||
 
  <details>
   <summary>:black_medium_small_square: Base backend. Развернуть пояснение</summary>
@@ -576,8 +579,69 @@ USER_X_* набор таблиц -- USER_X_MAILS, USER_X_DIRECTORIES, USER_X_DIR
 
 </details>
 
-Таблица с конфигурациями, количеством серверов и сервисами расположенными на них. В случае использования kubernetes или
-иной виртуализации, список контейнеров с аллокацией ресурсов.
+
+<details>
+<summary>:black_medium_small_square: Балансировщик нагрузки Nginx. Развернуть пояснение</summary>
+
+**функции:**
+  - L7 балансировка
+  - SSL терминирование
+  - failover policy
+  
+**суммарное rps(пик):*5 035* `` 
+**Примем суммарное RPS на загрузку резурсов:** `50*5 035 = 201 750 RPS`         
+**суммарный входящий трафик(пик):** ` 52,5 Гбит/с`    
+**суммарный исходящий трафик(пик) в бекенды:** `52,5 Гбит/с`
+  
+Для обработки HTTPS-запросов со средним размером 1 МБ будет оптимально испольховать 16-ядерный процессор [[15]](#источник_15)    
+`201 750 CPS / 6,676 CPS = 16 ядер * 30 серверов`   
+Мы получим пропускную способность: `30 * 66 Гбит/с = 1980 Гбит/с` [[15]](#источник_15)    
+</details>
+
+<details>
+<summary>:black_medium_small_square: Хранилище сессий Tarantool. Развернуть пояснение</summary>
+
+**функции:**
+ - хранение сессий пользователей
+ - чтение и запись сессий
+  
+**суммарное rps(пик):** `4 948 reads/s + 7 writes/s`            
+  
+Рассчет размера БД с помощью специального калькулятора [[16]](#источник_16)
+[открыть в новой вкладке](https://raw.githubusercontent.com/Natali-Skv/technopark_highload_mail/master/imgs/store.png)
+![](https://github.com/Natali-Skv/technopark_highload_mail/blob/master/imgs/store_100.png)
+
+</details>
+
+<details>
+<summary>:black_medium_small_square: SQLite. Развернуть пояснение</summary>
+
+**функции:**
+ - SQLite-сервер, отвечающий на запросы получения списка писем по директории, списка вложений пользователя
+ - хранение отдельной встраеваемой БД для каждого пользователя
+  
+**суммарное rps(пик):** `18 520 writes/s + 17 037 reades/s`            
+  
+**размер хранилища сервера:** `45,2 Tб`  
+ Для данного сервиса примем `50 RPS/ядро` 
+ `35 557 RPS/50 = 712 ядер = 64 ядра * 11 серверов `  
+  Всего необходимо хранить `45,2 Tб = 11 серверов * 8 Тб` 
+</details>
+
+
+<details>
+<summary>:black_medium_small_square: Postgresql. Развернуть пояснение</summary>
+
+**функции:**
+ - хранение таблиц USERS, ATTACHES, WIDE_MAILS
+ - ответ на запросы получения конкретного пользователя, вложения, письма
+ - добавление пользователя, письма, вложения
+  
+**суммарное rps(пик):** `511 writes/s + 3 200 reades/s`            
+  
+**объем данных кластера серверов:** ` 2 Пб = 10 HDD * 20 Тб`  
+Пусть будет 100 шардов, которые будут размещаться на 10 физических серверах.
+</details>
 
 ----
 
@@ -596,4 +660,6 @@ USER_X_* набор таблиц -- USER_X_MAILS, USER_X_DIRECTORIES, USER_X_DIR
 <a name="источник_11"> 11. https://grpc.io/about/ </a>           
 <a name="источник_12"> 12. https://grafana-dot-grpc-testing.appspot.com/?orgId=1 </a>           
 <a name="источник_13"> 13. https://medium.com/@EmperorRXF/evaluating-performance-of-rest-vs-grpc-1b8bdf0b22da </a>           
-<a name="источник_14"> 14. https://nginx.org/ru/#architecture_and_scalability </a>           
+<a name="источник_14"> 14. https://nginx.org/ru/#architecture_and_scalability </a>     
+<a name="источник_15"> 15. https://www.nginx.com/blog/testing-the-performance-of-nginx-and-nginx-plus-web-servers/ </a>   
+<a name="источник_16"> 16. https://www.tarantool.io/ru/sizing_calculator/ </a>   
