@@ -505,7 +505,7 @@ USER_X_* набор таблиц -- USER_X_MAILS, USER_X_DIRECTORIES, USER_X_DIR
 
 ## 6. <a name="схема_проекта">Схема проекта</a>
 
-[открыть в новой вкладке](https://raw.githubusercontent.com/Natali-Skv/technopark_highload_mail/master/imgs/project_sceme.png)
+[открыть в новой вкладке](https://raw.githubusercontent.com/Natali-Skv/technopark_highload_mail/master/imgs/project_sceme_100.png)
 ![](https://github.com/Natali-Skv/technopark_highload_mail/blob/master/imgs/project_sceme_100.png)
 
 
