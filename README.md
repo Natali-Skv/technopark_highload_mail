@@ -604,8 +604,8 @@ USER_X_* набор таблиц -- USER_X_MAILS, USER_X_DIRECTORIES, USER_X_DIR
 **суммарное rps(пик):** `4 948 reads/s + 7 writes/s`            
   
 Рассчет размера БД с помощью специального калькулятора [[16]](#источник_16)
-[открыть в новой вкладке](https://raw.githubusercontent.com/Natali-Skv/technopark_highload_mail/master/imgs/store.png)
-![](https://github.com/Natali-Skv/technopark_highload_mail/blob/master/imgs/store_100.png)
+[открыть в новой вкладке](https://raw.githubusercontent.com/Natali-Skv/technopark_highload_mail/master/imgs/tarantool.png)
+![](https://github.com/Natali-Skv/technopark_highload_mail/blob/master/imgs/tarantool.png)
 
 </details>
 
