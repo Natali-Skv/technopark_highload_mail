@@ -249,11 +249,8 @@
 
 ## 4.<a name="физическая_схема">Физическая схема</a>
 
-Рассчет размера БД с помощью специального калькулятора 
-
-[открыть в новой вкладке](https://raw.githubusercontent.com/Natali-Skv/technopark_highload_mail/master/imgs/tarantool.png)
-![](https://github.com/Natali-Skv/technopark_highload_mail/blob/master/imgs/tarantool.png)
-
+[открыть в новой вкладке](https://raw.githubusercontent.com/Natali-Skv/technopark_highload_mail/master/imgs/store.png)
+![](https://github.com/Natali-Skv/technopark_highload_mail/blob/master/imgs/store_100.png)
 
 |данные            |количество записей      | количество памяти        |пик ips|пик ops|
 |------------------|------------------------|--------------------------|-------|-------|
@@ -269,8 +266,9 @@
   <summary>:black_circle: SESSIONS. Развернуть пояснение</summary>
   
 **Рассчет размера БД с помощью специального калькулятора [[16]](#источник_16)**
-[открыть в новой вкладке](https://raw.githubusercontent.com/Natali-Skv/technopark_highload_mail/master/imgs/store.png)
-![](https://github.com/Natali-Skv/technopark_highload_mail/blob/master/imgs/store_100.png)
+
+[открыть в новой вкладке](https://raw.githubusercontent.com/Natali-Skv/technopark_highload_mail/master/imgs/tarantool.png)
+![](https://github.com/Natali-Skv/technopark_highload_mail/blob/master/imgs/tarantool.png)
 
 
 * Пусть каждый пользователь залогинен на 3-х девайсах.
@@ -514,8 +512,8 @@ USER_X_* набор таблиц -- USER_X_MAILS, USER_X_DIRECTORIES, USER_X_DIR
 
 ## 7. <a name="список_серверов">Список серверов</a>
 
-|                            | cpu | ram | SSD/HDD   |сеть Гбит/с     | количество  |
-|----------------------------|-----|-----|-------|----------------|---------|
+|                            | cpu | ram | SSD/HDD   |сеть Гбит/с    | количество |
+|----------------------------|-----|-----|-----------|---------------|---------|
 | base backend               | 40  | 512 | 256 SSD  |10              | 22 + 10 |
 | attachments backend        | 40  | 512 | 256 SSD  |25              |  3 + 2  |
 | send-mail backend          | 40  | 512 | 256 SSD  |10              | 7 + 4   |
@@ -523,8 +521,7 @@ USER_X_* набор таблиц -- USER_X_MAILS, USER_X_DIRECTORIES, USER_X_DIR
 | Postgresql                 |64   | 512 | 20 Тб HDD|25              |10 + 20  |
 | SQLite                     |64   | 512 | 4 Тб HDD |10              |11 + 20  |
 | Tarantool                  |8    |64   | 256  SSD |10              | 1 + 2   |
-| |||||
-| |||||
+| файловое хранилище         |32   |256  | 90 * 20 Тб HDD| 10        | 56 + 60 |
 
  <details>
   <summary>:black_medium_small_square: Base backend. Развернуть пояснение</summary>
@@ -623,7 +620,7 @@ USER_X_* набор таблиц -- USER_X_MAILS, USER_X_DIRECTORIES, USER_X_DIR
 **суммарное rps(пик):** `18 520 writes/s + 17 037 reades/s`            
   
 **размер хранилища сервера:** `45,2 Tб`  
- Для данного сервиса примем `50 RPS/ядро` 
+ Для данного сервиса примем `50 RPS/ядро`   
  `35 557 RPS/50 = 712 ядер = 64 ядра * 11 серверов `  
   Всего необходимо хранить `45,2 Tб = 11 серверов * 8 Тб` 
 </details>
@@ -639,8 +636,23 @@ USER_X_* набор таблиц -- USER_X_MAILS, USER_X_DIRECTORIES, USER_X_DIR
   
 **суммарное rps(пик):** `511 writes/s + 3 200 reades/s`            
   
-**объем данных кластера серверов:** ` 2 Пб = 10 HDD * 20 Тб`  
-Пусть будет 100 шардов, которые будут размещаться на 10 физических серверах.
+**объем данных кластера серверов:** ` 2 Пб = 10 серверов * 20 Тб HDD`  
+Пусть будет 1000 шардов, которые будут размещаться на 10 физических серверах.
+</details>
+
+<details>
+<summary>:black_medium_small_square: Файловое хранилище. Развернуть пояснение</summary>
+
+**функции:**
+ - хранение, загрузка и отдача вложения 
+  
+**суммарное rps(пик):** `114 writes/s + 417 reades/s`            
+**суммарный входящий трафик(пик):** ` 9,12 Гбит/с`    
+**суммарный исходящий трафик(пик) в бекенды:** `32,8 Гбит/с` 
+  
+  Будем использовать специальные стораджовые сервера по 90 дисков
+**объем данных кластера серверов:** `100 Пб = 5 000 HDD * 20 Тб`  
+
 </details>
 
 ----
